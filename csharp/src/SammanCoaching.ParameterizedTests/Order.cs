@@ -21,7 +21,7 @@ public class Order {
     // BUG! All statuses except PAYMENT_EXPECTED mean that it is paid.
     // Off by one error: 0 should also return true.
     public bool IsPaid() {
-        return Status - Status.Paid > 0;
+        return Status.CompareTo(Status.Paid) > 0;
     }
 
 }
