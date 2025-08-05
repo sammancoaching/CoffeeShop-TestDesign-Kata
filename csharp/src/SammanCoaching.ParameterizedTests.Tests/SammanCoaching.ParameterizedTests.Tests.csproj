@@ -4,14 +4,14 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    <PackageReference Include="xunit.runner.visualstudio"/>
+    <PackageReference Include="xunit.v3"/>
   </ItemGroup>
   <ItemGroup>
-    <Using Include="Xunit" />
+    <Using Include="Xunit"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SammanCoaching.ParameterizedTests\SammanCoaching.ParameterizedTests.csproj" />
+    <ProjectReference Include="..\SammanCoaching.ParameterizedTests\SammanCoaching.ParameterizedTests.csproj"/>
   </ItemGroup>
 </Project>

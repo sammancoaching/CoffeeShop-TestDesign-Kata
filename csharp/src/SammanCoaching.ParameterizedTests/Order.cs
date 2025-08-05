@@ -1,28 +1,27 @@
-namespace SammanCoaching.ParameterizedTests
+namespace SammanCoaching.ParameterizedTests;
+
+public class Order
 {
-    public class Order
+    public Status Status { get; set; }
+
+    public Order()
     {
-        public Status Status { get; private set; }
+        Status = Status.Ordered;
+    }
 
-        public Order()
+    public void Pay()
+    {
+        if (Status == Status.Ordered)
         {
-            Status = Status.Ordered;
+            Status = Status.Paid;
         }
+    }
 
-        public void Pay()
+    public void Cancel()
+    {
+        if (Status == Status.Ordered)
         {
-            if (Status == Status.Ordered)
-            {
-                Status = Status.Paid;
-            }
-        }
-
-        public void Cancel()
-        {
-            if (Status == Status.Ordered)
-            {
-                Status = Status.Cancelled;
-            }
+            Status = Status.Cancelled;
         }
     }
 }

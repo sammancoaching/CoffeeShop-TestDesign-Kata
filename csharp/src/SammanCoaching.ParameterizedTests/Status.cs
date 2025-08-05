@@ -1,9 +1,8 @@
-namespace SammanCoaching.ParameterizedTests
+namespace SammanCoaching.ParameterizedTests;
+
+public enum Status
 {
-    public enum Status
-    {
-        Ordered,
-        Paid,
-        Cancelled
-    }
+    Ordered,
+    Paid,
+    Cancelled
 }
