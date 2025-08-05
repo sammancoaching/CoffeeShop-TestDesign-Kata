@@ -1,0 +1,32 @@
+name: ".NET CI with dotnet"
+
+on:
+  schedule:
+    # each fifteenth day of month
+    - cron: "0 0 15 * *"
+  push:
+    paths:
+      - 'csharp/**'
+      - '.github/workflows/dotnet.yml'
+  pull_request:
+    paths:
+      - 'csharp/**'
+      - '.github/workflows/dotnet.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up .NET 8
+      uses: actions/setup-dotnet@v4
+
+    - name: Restore dependencies
+      run: dotnet restore src/SammanCoaching.ParameterizedTests.sln
+
+    - name: Build
+      run: dotnet build src/SammanCoaching.ParameterizedTests.sln --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test src/SammanCoaching.ParameterizedTests.sln --no-restore --verbosity normal
