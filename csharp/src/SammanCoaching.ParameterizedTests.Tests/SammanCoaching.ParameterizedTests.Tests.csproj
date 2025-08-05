@@ -14,4 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\SammanCoaching.ParameterizedTests\SammanCoaching.ParameterizedTests.csproj"/>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="concept\example.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

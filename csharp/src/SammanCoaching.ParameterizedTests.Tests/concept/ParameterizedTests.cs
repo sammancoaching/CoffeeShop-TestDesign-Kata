@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Xunit;
 
 namespace SammanCoaching.ParameterizedTests.Tests.Concept
@@ -144,10 +145,30 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 
 		public static IEnumerable<object[]> CsvFileSourceData()
 		{
-			// Simulate file data: col1, col2, col3WithTypeConversion
-			yield return new object[] { "test", "TEST", 4 };
-			yield return new object[] { "tEst", "TEST", 4 };
-			yield return new object[] { "Java", "JAVA", 4 };
+			// Read CSV file from the concept folder
+			var csvPath = Path.Combine(Path.GetDirectoryName(typeof(ParameterizedTests).Assembly.Location) ?? string.Empty, "concept", "example.csv");
+			if (!File.Exists(csvPath))
+			{
+				// Fallback to hardcoded data if file not found
+				yield return new object[] { "test", "TEST", 4 };
+				yield return new object[] { "tEst", "TEST", 4 };
+				yield return new object[] { "Java", "JAVA", 4 };
+				yield break;
+			}
+
+			var lines = File.ReadAllLines(csvPath)
+				.Skip(1) // skip header
+				.Where(line => !string.IsNullOrWhiteSpace(line));
+
+			foreach (var line in lines)
+			{
+				var parts = line.Split(';');
+				if (parts.Length != 3) continue;
+				var input = parts[0].Trim();
+				var expected = parts[1].Trim();
+				if (!int.TryParse(parts[2].Trim(), out var length)) continue;
+				yield return new object[] { input, expected, length };
+			}
 		}
 
 		[Theory]
