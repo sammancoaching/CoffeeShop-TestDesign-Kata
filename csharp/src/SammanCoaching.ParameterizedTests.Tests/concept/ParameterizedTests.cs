@@ -56,7 +56,7 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 
 		public enum MyEnum
 		{
-			FOO, BAR, FOOBAR
+			Foo, Bar, Foobar
 		}
 
 		public static IEnumerable<object[]> MyEnumValues =>
@@ -90,8 +90,8 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 
 		public static IEnumerable<object[]> Objects()
 		{
-			var o1 = new SomeObject("foo", 42, new List<SomeObject>());
-			var o2 = new SomeObject("bar", 21, new List<SomeObject> { o1 });
+			var o1 = new SomeObject("foo", 42, new());
+			var o2 = new SomeObject("bar", 21, new() { o1 });
 			yield return new object[] { o1 };
 			yield return new object[] { o2 };
 		}
@@ -104,15 +104,12 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 			Assert.NotNull(someObject);
 		}
 
-		public static IEnumerable<object[]> PrimeNumbersUpTo1000()
-		{
-			foreach (var prime in PrimeNumberUpTo1000Generator.GetPrimesUpTo1000())
-			{
-				yield return new object[] { prime };
-			}
-		}
+		public static IEnumerable<object[]> PrimeNumbersUpTo1000() =>
+            PrimeNumberUpTo1000Generator
+                .GetPrimesUpTo1000()
+                .Select(prime => new object[] { prime });
 
-		[Theory]
+        [Theory]
 		[MemberData(nameof(PrimeNumbersUpTo1000))]
 		public void ArgumentSource(int primeNumber)
 		{
@@ -143,35 +140,7 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 			Assert.Equal(expected, actualValue);
 		}
 
-		public static IEnumerable<object[]> CsvFileSourceData()
-		{
-			// Read CSV file from the concept folder
-			var csvPath = Path.Combine(Path.GetDirectoryName(typeof(ParameterizedTests).Assembly.Location) ?? string.Empty, "concept", "example.csv");
-			if (!File.Exists(csvPath))
-			{
-				// Fallback to hardcoded data if file not found
-				yield return new object[] { "test", "TEST", 4 };
-				yield return new object[] { "tEst", "TEST", 4 };
-				yield return new object[] { "Java", "JAVA", 4 };
-				yield break;
-			}
-
-			var lines = File.ReadAllLines(csvPath)
-				.Skip(1) // skip header
-				.Where(line => !string.IsNullOrWhiteSpace(line));
-
-			foreach (var line in lines)
-			{
-				var parts = line.Split(';');
-				if (parts.Length != 3) continue;
-				var input = parts[0].Trim();
-				var expected = parts[1].Trim();
-				if (!int.TryParse(parts[2].Trim(), out var length)) continue;
-				yield return new object[] { input, expected, length };
-			}
-		}
-
-		[Theory]
+        [Theory]
 		[MemberData(nameof(CsvFileSourceData))]
 		public void CsvFileSource(string col1, string col2, int col3WithTypeConversion)
 		{
@@ -180,5 +149,33 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 			Assert.Equal(col2, actualValue);
 			Assert.Equal(col3WithTypeConversion, actualValue.Length);
 		}
-	}
+
+        public static IEnumerable<object[]> CsvFileSourceData()
+        {
+            // Read CSV file from the concept folder
+            var csvPath = Path.Combine(Path.GetDirectoryName(typeof(ParameterizedTests).Assembly.Location) ?? string.Empty, "concept", "example.csv");
+            if (!File.Exists(csvPath))
+            {
+                // Fallback to hardcoded data if file not found
+                yield return new object[] { "test", "TEST", 4 };
+                yield return new object[] { "tEst", "TEST", 4 };
+                yield return new object[] { "Java", "JAVA", 4 };
+                yield break;
+            }
+
+            var lines = File.ReadAllLines(csvPath)
+                .Skip(1) // skip header
+                .Where(line => !string.IsNullOrWhiteSpace(line));
+
+            foreach (var line in lines)
+            {
+                var parts = line.Split(';');
+                if (parts.Length != 3) continue;
+                var input = parts[0].Trim();
+                var expected = parts[1].Trim();
+                if (!int.TryParse(parts[2].Trim(), out var length)) continue;
+                yield return new object[] { input, expected, length };
+            }
+        }
+    }
 }

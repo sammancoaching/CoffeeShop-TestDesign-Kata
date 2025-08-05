@@ -10,13 +10,9 @@ public class Order {
     }
 
 
-    public bool IsUpdateAllowed() {
-        return !IsPaid();
-    }
+    public bool IsUpdateAllowed() => !IsPaid();
 
-    public bool IsCancelAllowed() {
-        return !IsPaid();
-    }
+    public bool IsCancelAllowed() => !IsPaid();
 
     // BUG! All statuses except PAYMENT_EXPECTED mean that it is paid.
     // Off by one error: 0 should also return true.
