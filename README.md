@@ -15,6 +15,7 @@ In each language directory there's a ```concept``` sub-package/directory that sh
 - [pytest](https://docs.pytest.org/en/stable/) for Python
 - [Swift Testing](https://developer.apple.com/documentation/testing) for Swift
 - [bun](https://bun.sh/docs/cli/test) for typescript
+- [xUnit Theory](https://xunit.net/docs/getting-started/v3/getting-started#write-your-first-theory) for C#
 
 ## Notes for contributors
 
