@@ -1,0 +1,42 @@
+name: Swift CI
+
+on:
+  schedule:
+    # each fifteen day of month
+    - cron: "0 0 15 * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "swift/**"
+      - ".github/workflows/swift.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "swift/**"
+      - ".github/workflows/swift.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: all tests except the expected failing one
+        working-directory: swift
+        run: |
+          # Run all tests, excluding the one we expect to fail.
+          swift test --skip "paid"
+
+      - name: expected failing test
+        working-directory: swift
+        run: |
+          # This test should fail due to the bug in the isPaid method.
+          if swift test --filter "paid"; then
+            echo "::error::Test unexpectedly passed!"
+            exit 1
+          else
+            echo "Test failed as expected - bug still exists"
+          fi
