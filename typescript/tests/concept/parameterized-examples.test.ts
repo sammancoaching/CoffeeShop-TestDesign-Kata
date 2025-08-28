@@ -168,31 +168,22 @@ describe("Parameterize from File", () => {
         expectedUpper: string;
         expectedLen: number;
     }> {
-        try {
-            const csvPath = join(__dirname, "test-data.csv");
-            const content = readFileSync(csvPath, "utf-8");
-            const lines = content.trim().split("\n");
-            lines.shift(); // Skip header
+        const csvPath = join(__dirname, "test-data.csv");
+        const content = readFileSync(csvPath, "utf-8");
+        const lines = content.trim().split("\n");
+        lines.shift(); // Skip header
 
-            return lines.map((line) => {
-                const [input, expectedUpper, expectedLen] = line.split(",");
-                if (!input || !expectedUpper || !expectedLen) {
-                    throw new Error(`Invalid CSV line: ${line}`);
-                }
-                return {
-                    input,
-                    expectedUpper,
-                    expectedLen: Number.parseInt(expectedLen, 10),
-                };
-            });
-        } catch {
-            // Return sample data if file doesn't exist
-            return [
-                { input: "test", expectedUpper: "TEST", expectedLen: 4 },
-                { input: "hello", expectedUpper: "HELLO", expectedLen: 5 },
-                { input: "world", expectedUpper: "WORLD", expectedLen: 5 },
-            ];
-        }
+        return lines.map((line) => {
+            const [input, expectedUpper, expectedLen] = line.split(",");
+            if (!input || !expectedUpper || !expectedLen) {
+                throw new Error(`Invalid CSV line: ${line}`);
+            }
+            return {
+                input,
+                expectedUpper,
+                expectedLen: Number.parseInt(expectedLen, 10),
+            };
+        });
     }
 
     const csvData = loadCsvData();
