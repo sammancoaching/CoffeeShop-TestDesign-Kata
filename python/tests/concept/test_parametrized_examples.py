@@ -165,13 +165,6 @@ class TestParametrizeFromFile:
     def load_csv_data() -> list[tuple[str, str, int]]:
         """Load test data from CSV file."""
         csv_path = Path(__file__).parent / "test_data.csv"
-        if not csv_path.exists():
-            # Return sample data if file doesn't exist
-            return [
-                ("test", "TEST", 4),
-                ("hello", "HELLO", 5),
-                ("world", "WORLD", 5),
-            ]
 
         with open(csv_path) as f:
             reader = csv.reader(f)
