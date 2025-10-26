@@ -1,0 +1,5 @@
+input;expected;length
+test;TEST;4
+tEst;TEST;4
+Java;JAVA;4
+loNGER sTriNg;LONGER STRING;13

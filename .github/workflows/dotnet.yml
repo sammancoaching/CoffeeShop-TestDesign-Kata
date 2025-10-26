@@ -1,0 +1,46 @@
+name: ".NET CI with dotnet"
+
+on:
+  schedule:
+    # each fifteenth day of month
+    - cron: "0 0 15 * *"
+  push:
+    paths:
+      - 'csharp/**'
+      - '.github/workflows/dotnet.yml'
+  pull_request:
+    paths:
+      - 'csharp/**'
+      - '.github/workflows/dotnet.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: csharp/global.json
+
+    - name: Restore dependencies
+      run: dotnet restore SammanCoaching.ParameterizedTests.sln
+      working-directory: csharp/src
+
+    - name: Build
+      run: dotnet build SammanCoaching.ParameterizedTests.sln --configuration Release --no-restore
+      working-directory: csharp/src
+
+    - name: Test (all except expected failing test)
+      run: |
+        # Run all tests except the expected failing one
+        dotnet test SammanCoaching.ParameterizedTests.sln --no-restore --filter "FullyQualifiedName!~OrderCannotBeUpdatedOrCanceledIfPaid" --logger "trx;LogFileName=results.trx"
+      working-directory: csharp/src
+
+    - name: Test (expected failing test)
+      run: |
+        # This test should fail due to the bug in the implementation
+        ! dotnet test SammanCoaching.ParameterizedTests.sln --no-restore --filter "FullyQualifiedName~OrderCannotBeUpdatedOrCanceledIfPaid" --logger "trx;LogFileName=fail_expected.trx"
+      working-directory: csharp/src

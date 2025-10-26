@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    <PackageReference Include="xunit.runner.visualstudio"/>
+    <PackageReference Include="xunit.v3"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SammanCoaching.ParameterizedTests\SammanCoaching.ParameterizedTests.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="concept\example.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
