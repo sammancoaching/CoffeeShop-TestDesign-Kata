@@ -5,7 +5,7 @@ public enum Status
     /**
      * Placed, but not payed yet. Still changeable.
      */
-    PaymentExpected = 0,
+    PaymentExpected,
 
     /**
      * {@link Order} was payed. No changes allowed to it anymore.

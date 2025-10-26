@@ -154,15 +154,6 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
         {
             // Read CSV file from the concept folder
             var csvPath = Path.Combine(Path.GetDirectoryName(typeof(ParameterizedTests).Assembly.Location) ?? string.Empty, "concept", "example.csv");
-            if (!File.Exists(csvPath))
-            {
-                // Fallback to hardcoded data if file not found
-                yield return new object[] { "test", "TEST", 4 };
-                yield return new object[] { "tEst", "TEST", 4 };
-                yield return new object[] { "Java", "JAVA", 4 };
-                yield break;
-            }
-
             var lines = File.ReadAllLines(csvPath)
                 .Skip(1) // skip header
                 .Where(line => !string.IsNullOrWhiteSpace(line));
