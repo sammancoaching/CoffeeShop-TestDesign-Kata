@@ -1,6 +1,5 @@
 package org.sammancoaching.parameterizedtests.concept;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,29 +48,30 @@ class ParameterizedTests {
 	}
 
 	private static class SomeObject {
-		private SomeObject(String foo, int bar, List<SomeObject> children) {
+
+		private final String foo;
+		private final int bar;
+
+		private SomeObject(String foo, int bar) {
 			this.foo = foo;
 			this.bar = bar;
-			this.children = children;
 		}
 
-		private String foo;
-		private int bar;
-		private List<SomeObject> children;
+		// additional code can be placed here
 
 		@Override
 		public String toString() {
-			return "Object with " + foo + "/" + bar + " and Childs " + children;
+			return String.format("SomeObject [foo=%s, bar=%d]", foo, bar);
 		}
-		
-		// here should come some code
+
 	}
 
-	// Collection or Stream
+	// Array, Collection or Stream
 	private static List<SomeObject> objects() {
-		SomeObject o1 = new SomeObject("foo", 42, emptyList());
-		SomeObject o2 = new SomeObject("bar", 21, asList(o1));
-		return asList(o1, o2);
+		return List.of( //
+				new SomeObject("A", 42), //
+				new SomeObject("B", 21) //
+		);
 	}
 
 	@ParameterizedTest
