@@ -76,22 +76,22 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 
 		public class SomeObject
 		{
-			public SomeObject(string foo, int bar, List<SomeObject> children)
+			public SomeObject(string foo, int bar)
 			{
 				Foo = foo;
 				Bar = bar;
-				Children = children;
 			}
 			public string Foo { get; }
 			public int Bar { get; }
 			public List<SomeObject> Children { get; }
-			public override string ToString() => $"Object with {Foo}/{Bar} and Childs {Children?.Count ?? 0}";
+			public override string ToString() => $"SomeObject [Foo={Foo}, Bar={Bar}]";
+
 		}
 
 		public static IEnumerable<object[]> Objects()
 		{
-			var o1 = new SomeObject("foo", 42, new());
-			var o2 = new SomeObject("bar", 21, new() { o1 });
+			var o1 = new SomeObject("foo", 42);
+			var o2 = new SomeObject("bar", 21);
 			yield return new object[] { o1 };
 			yield return new object[] { o2 };
 		}
