@@ -81,6 +81,19 @@ class ParameterizedTests {
 		// objects
 	}
 
+	// Array, Collection or Stream
+	static List<SomeObject> objects = List.of( //
+			new SomeObject("A", 42), //
+			new SomeObject("B", 21) //
+	);
+
+	@ParameterizedTest
+	@FieldSource("objects")
+	void fieldSource(SomeObject someObject) {
+		// call the code to test that should do some work when getting one of the
+		// objects
+	}
+
 	@ParameterizedTest
 	@ArgumentsSource(PrimeNumberUpTo1000Generator.class)
 	void argumentSource(int primeNumber) {
