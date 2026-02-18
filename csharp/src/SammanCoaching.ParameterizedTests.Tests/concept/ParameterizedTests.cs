@@ -83,7 +83,6 @@ namespace SammanCoaching.ParameterizedTests.Tests.Concept
 			}
 			public string Foo { get; }
 			public int Bar { get; }
-			public List<SomeObject> Children { get; }
 			public override string ToString() => $"SomeObject [Foo={Foo}, Bar={Bar}]";
 
 		}
